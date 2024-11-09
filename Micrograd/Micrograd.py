@@ -96,7 +96,7 @@ class Value:
     
     # Overloading the negation operator    
     def __neg__(self) -> 'Value':
-        out = Value(data = -self.data, _children = (self), _op = 'neg')
+        out = Value(data = -self.data, _children = (self, ), _op = 'neg')
         
         def _backward():
             self.grad += -1 * out.grad
@@ -106,7 +106,7 @@ class Value:
     
     # Overloading the absolute value operator
     def __abs__(self) -> 'Value':
-        out = Value(data = abs(self.data), _children = (self), _op = 'abs')
+        out = Value(data = abs(self.data), _children = (self, ), _op = 'abs')
         
         def _backward():
             self.grad += np.sign(self.data) * out.grad
@@ -132,7 +132,7 @@ class Value:
     # Sigmoid function
     def sigmoid(self) -> 'Value':
         t = np.exp(-self.data)
-        out = Value(data = 1/(1 + t), _children = (self), _op = 'sigmoid')
+        out = Value(data = 1/(1 + t), _children = (self, ), _op = 'sigmoid')
         
         def _backward():
             self.grad += (1 - out.data) * out.data * out.grad
@@ -142,7 +142,7 @@ class Value:
             
     # Trigonometric functions
     def cos(self) -> 'Value':
-        out = Value(data = np.cos(self.data), _children = (self), _op = 'cos')
+        out = Value(data = np.cos(self.data), _children = (self, ), _op = 'cos')
         
         def _backward():
             self.grad += -np.sin(self.data) * out.grad
@@ -151,7 +151,7 @@ class Value:
         return out
     
     def sin(self) -> 'Value':
-        out = Value(data = np.sin(self.data), _children = (self), _op = 'sin')
+        out = Value(data = np.sin(self.data), _children = (self, ), _op = 'sin')
 
         def _backward():
             self.grad += np.cos(self.data) * out.grad
@@ -160,7 +160,7 @@ class Value:
         return out
     
     def tan(self) -> 'Value':
-        out = Value(data = np.tan(self.data), _children = (self), _op = 'tan')
+        out = Value(data = np.tan(self.data), _children = (self, ), _op = 'tan')
         
         def _backward():
             self.grad += (1/np.cos(self.data) ** 2) * out.grad
@@ -169,7 +169,7 @@ class Value:
         return out
     
     def cotan(self) -> 'Value':
-        out = Value(data = 1/np.tan(self.data), _children = (self), _op = 'cotan')
+        out = Value(data = 1/np.tan(self.data), _children = (self, ), _op = 'cotan')
         
         def _backward():
             self.grad += -(1/np.sin(self.data) ** 2) * out.grad 
@@ -180,7 +180,7 @@ class Value:
     # Hyperbolic functions
     def cosh(self) -> 'Value':
         t = np.exp(self.data) + np.exp(-self.data)
-        out = Value(data = t/2, _children = (self), _op = 'cosh')
+        out = Value(data = t/2, _children = (self, ), _op = 'cosh')
         
         def _backward():
             self.grad += np.sinh(self.data) * out.grad
@@ -190,8 +190,8 @@ class Value:
     
     def sinh(self) -> 'Value':
         t = np.exp(self.data) - np.exp(-self.data)
-        out = Value(data = t/2, _children = (self), _op = 'sinh')
-        
+        out = Value(data = t/2, _children = (self, ), _op = 'sinh')
+    
         def _backward():
             self.grad += np.cosh(self.data) * out.grad
             
@@ -201,7 +201,7 @@ class Value:
     def tanh(self) -> 'Value':
         cosh = (np.exp(self.data) + np.exp(-self.data)) / 2
         sinh = (np.exp(self.data) - np.exp(-self.data)) / 2
-        out = Value(data = sinh/cosh, _children = (self), _op = 'tanh')
+        out = Value(data = sinh/cosh, _children = (self, ), _op = 'tanh')
         
         def _backward():
             self.grad += (1 - out.data ** 2) * out.grad
@@ -212,7 +212,7 @@ class Value:
     def coth(self) -> 'Value':
         cosh = (np.exp(self.data) + np.exp(-self.data)) / 2
         sinh = (np.exp(self.data) - np.exp(-self.data)) / 2
-        out = Value(data = cosh/sinh, _children = (self), _op = 'coth')
+        out = Value(data = cosh/sinh, _children = (self, ), _op = 'coth')
 
         def _backward():
             self.grad += (1 - out.data ** 2) * out.grad
@@ -222,8 +222,8 @@ class Value:
     
     def sech(self) -> 'Value':
         cosh = (np.exp(self.data) + np.exp(-self.data)) / 2
-        out = Value(data = 1/cosh, _children = (self), _op = 'sech')
-        
+        out = Value(data = 1/cosh, _children = (self, ), _op = 'sech')
+
         def _backward():
             self.grad += -np.tanh(self.data) * out.grad
             
@@ -232,7 +232,7 @@ class Value:
     
     def csch(self) -> 'Value':
         sinh = (np.exp(self.data) - np.exp(-self.data)) / 2
-        out = Value(data = 1/sinh, _children = (self), _op = 'csch')
+        out = Value(data = 1/sinh, _children = (self, ), _op = 'csch')
 
         def _backward():
             self.grad += -np.coth(self.data) * out.grad
@@ -242,7 +242,7 @@ class Value:
 
     # Inverse trigonometric functions
     def acos(self) -> 'Value':
-        out = Value(data = np.arccos(self.data), _children = (self), _op = 'acos')
+        out = Value(data = np.arccos(self.data), _children = (self, ), _op = 'acos')
         
         def _backward():
             self.grad += -(1/np.sqrt(1 - self.data ** 2)) * out.grad
@@ -251,7 +251,7 @@ class Value:
         return out
     
     def asin(self) -> 'Value':
-        out = Value(data = np.arcsin(self.data), _children = (self), _op = 'asin')
+        out = Value(data = np.arcsin(self.data), _children = (self, ), _op = 'asin')
         
         def _backward():
             self.grad += (1/np.sqrt(1 - self.data ** 2)) * out.grad
@@ -260,7 +260,7 @@ class Value:
         return out
     
     def atan(self) -> 'Value':
-        out = Value(data = np.arctan(self.data), _children = (self), _op = 'atan')
+        out = Value(data = np.arctan(self.data), _children = (self, ), _op = 'atan')
         
         def _backward():
             self.grad += (1/(1 + self.data ** 2)) * out.grad
@@ -269,7 +269,7 @@ class Value:
         return out
     
     def acotan(self) -> 'Value':
-        out = Value(data = np.arctan(1/self.data), _children = (self), _op = 'acotan')
+        out = Value(data = np.arctan(1/self.data), _children = (self, ), _op = 'acotan')
         
         def _backward():
             self.grad += -(1/(1 + self.data ** 2)) * out.grad
@@ -278,7 +278,7 @@ class Value:
         return out
     
     def asec(self) -> 'Value':
-        out = Value(data = np.arccos(1/self.data), _children = (self), _op = 'asec')
+        out = Value(data = np.arccos(1/self.data), _children = (self, ), _op = 'asec')
         
         def _backward():
             self.grad += -(1/(np.abs(self.data) * np.sqrt(self.data ** 2 - 1))) * out.grad
@@ -287,7 +287,7 @@ class Value:
         return out
     
     def acsc(self) -> 'Value':
-        out = Value(data = np.arcsin(1/self.data), _children = (self), _op = 'acsc')
+        out = Value(data = np.arcsin(1/self.data), _children = (self, ), _op = 'acsc')
         
         def _backward():
             self.grad += (1/(np.abs(self.data) * np.sqrt(self.data ** 2 - 1))) * out.grad
@@ -297,7 +297,7 @@ class Value:
     
     # Inverse hyperbolic functions
     def acosh(self) -> 'Value':
-        out = Value(data = np.arccosh(self.data), _children = (self), _op = 'acosh')
+        out = Value(data = np.arccosh(self.data), _children = (self, ), _op = 'acosh')
         
         def _backward():
             self.grad += (1/np.sqrt(self.data ** 2 - 1)) * out.grad
@@ -306,7 +306,7 @@ class Value:
         return out
     
     def asinh(self) -> 'Value':
-        out = Value(data = np.arcsinh(self.data), _children = (self), _op = 'asinh')
+        out = Value(data = np.arcsinh(self.data), _children = (self, ), _op = 'asinh')
         
         def _backward():
             self.grad += (1/np.sqrt(self.data ** 2 + 1)) * out.grad
@@ -315,7 +315,7 @@ class Value:
         return out
     
     def atanh(self) -> 'Value':
-        out = Value(data = np.arctanh(self.data), _children = (self), _op = 'atanh')
+        out = Value(data = np.arctanh(self.data), _children = (self, ), _op = 'atanh')
         
         def _backward():
             self.grad += (1/(1 - self.data ** 2)) * out.grad
@@ -324,7 +324,7 @@ class Value:
         return out
     
     def acoth(self) -> 'Value':
-        out = Value(data = np.arctanh(1/self.data), _children = (self), _op = 'acoth')
+        out = Value(data = np.arctanh(1/self.data), _children = (self, ), _op = 'acoth')
         
         def _backward():
             self.grad += -(1/(1 - self.data ** 2)) * out.grad
@@ -334,7 +334,7 @@ class Value:
         
     # Exponential and logarithmic functions
     def exp(self) -> 'Value':
-        out = Value(data = np.exp(self.data), _children = (self), _op = 'exp')
+        out = Value(data = np.exp(self.data), _children = (self, ), _op = 'exp')
         
         def _backward():
             self.grad += np.exp(self.data) * out.grad
@@ -343,7 +343,7 @@ class Value:
         return out
     
     def log(self) -> 'Value':
-        out = Value(data = np.log(self.data), _children = (self), _op = 'log')
+        out = Value(data = np.log(self.data), _children = (self, ), _op = 'log')
 
         def _backward():
             self.grad += (1/self.data) * out.grad
@@ -352,7 +352,7 @@ class Value:
         return out
     
     def log_2(self) -> 'Value':
-        out = Value(data = np.log2(self.data), _children = (self), _op = 'log_2')
+        out = Value(data = np.log2(self.data), _children = (self, ), _op = 'log_2')
         
         def _backward():
             self.grad += (1/(self.data * np.log(2))) * out.grad
@@ -361,7 +361,7 @@ class Value:
         return out
     
     def log_10(self, other) -> 'Value':
-        out = Value(data = np.log10(self.data), _children = (self), _op = 'log_10')
+        out = Value(data = np.log10(self.data), _children = (self, ), _op = 'log_10')
 
         def _backward():
             self.grad += (1/(self.data * np.log(10))) * out.grad
@@ -370,7 +370,7 @@ class Value:
         return out
     
     def log_n(self, n: int) -> 'Value':
-        out = Value(data = np.log(self.data) / np.log(n), _children = (self), _op = f'log_{n}' ) 
+        out = Value(data = np.log(self.data) / np.log(n), _children = (self, ), _op = f'log_{n}' ) 
         
         def _backward():
             self.grad += (1/(self.data * np.log(n))) * out.grad
@@ -380,7 +380,7 @@ class Value:
     
     # SQRT and CBRT functions
     def sqrt(self, other) -> 'Value':
-        out = Value(data = np.sqrt(self.data), _children = (self), _op = 'sqrt')
+        out = Value(data = np.sqrt(self.data), _children = (self, ), _op = 'sqrt')
         
         def _backward():
             self.grad += (1/(2 * np.sqrt(self.data))) * out.grad
@@ -389,7 +389,7 @@ class Value:
         return out
     
     def cbrt(self, other) -> 'Value':
-        out = Value(data = np.cbrt(self.data), _children = (self), _op = 'cbrt')
+        out = Value(data = np.cbrt(self.data), _children = (self, ), _op = 'cbrt')
         
         def _backward():
             self.grad += (1/(3 * self.data ** (2/3))) * out.grad
@@ -399,7 +399,7 @@ class Value:
     
     # radius and degrees functions
     def rad(self) -> 'Value':
-        out = Value(data = np.radians(self.data), _children = (self), _op = 'rad')
+        out = Value(data = np.radians(self.data), _children = (self, ), _op = 'rad')
         
         def _backward():
             self.grad += np.radians(1) * out.grad
@@ -408,7 +408,7 @@ class Value:
         return out
     
     def deg(self) -> 'Value':
-        out = Value(data = np.degrees(self.data), _children = (self), _op = 'deg')
+        out = Value(data = np.degrees(self.data), _children = (self, ), _op = 'deg')
     
         def _backward():
             self.grad += np.degrees(1) * out.grad
@@ -418,7 +418,7 @@ class Value:
     
     # ReLU function to calculate the rectified linear unit
     def relu(self, other):
-        out = Value(data = np.maximum(0, self.data), _children = (self), _op = 'relu')
+        out = Value(data = np.maximum(0, self.data), _children = (self, ), _op = 'relu')
         
         def _backward():
             self.grad += (self.data > 0) * out.grad
