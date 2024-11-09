@@ -2,16 +2,22 @@ import setuptools
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
+
+NAME = "micrograd-with-scratch" 
+VERSION = "0.0.1"
+DESCRIPTION = "A simple autograd engine"
+AUTHOR = "Pham Anh Tuan <Yumeio>"
+AUTHOR_EMAIL = "23020704@vnu.edu.vn"
     
 setuptools.setup(
-    name='micrograd-with-scratch',
-    version='0.0.1',
-    author='Pham Anh Tuan <Yume0308>',
-    author_email="23020704@vnu.edu.vn",
-    description='A simple autograd engine',
+    name=NAME,
+    version=VERSION,
+    author=AUTHOR,
+    author_email=AUTHOR_EMAIL,
+    description=DESCRIPTION,
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url='https://github.com/Yume0308/Micrograd-With-Scratch',
+    url='https://github.com/Yumeio/Micrograd-With-Scratch',
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
