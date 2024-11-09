@@ -24,14 +24,12 @@ class Graph:
         dot = Digraph(format = format, graph_attr = {'rankdir': rankdir})
         
         for node in nodes:
-            dot.node(name=str(id(node)), label = "{label | data %.4f | grad %.4f }" % (node.label, node.data, node.grad), shape='record')
+            dot.node(name=str(id(node)), label = "{ %s | data %.4f | grad %.4f }" % (node.label, node.data, node.grad), shape='record')
             if node._op:
-                dot.node(name=str(id(node)), label = node._op)
+                dot.node(name=str(id(node)) + node._op, label=node._op)
                 dot.edge(str(id(node)) + node._op, str(id(node)))
-        
-        for node_child, node_parent in edges:
-            dot.edge(str(id(node_child)), str(id(node_parent)) + node_parent._op)
+    
+        for n1, n2 in edges:
+            dot.edge(str(id(n1)), str(id(n2)) + n2._op)
         
         return dot
-       
-        
